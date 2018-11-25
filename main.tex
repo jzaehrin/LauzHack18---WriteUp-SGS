@@ -1,0 +1,83 @@
+\documentclass[a4paper]{article}
+
+\usepackage{geometry}
+\geometry{hmargin=1.5cm,vmargin=1.5cm}
+
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{gensymb}
+\usepackage{subfig}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage[colorlinks = true]{hyperref}
+\usepackage[bottom]{footmisc}
+
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\usepackage{listings}
+
+\definecolor{verylightgray}{rgb}{.97,.97,.97}
+
+\lstset{
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  numbers=left,
+  basicstyle=\ttfamily,
+  moredelim=[il][\textcolor{pgrey}]{},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+}
+
+
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+\let \ra \rightarrow
+
+\title{SGS-Challenge : Write Up}
+
+\author{Pierre Kohler, Jonathan Zaehringer}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+
+\section{Challenge}
+\label{sec:questions}
+
+
+\subsection{Basic knowledge}
+This a base64 encoded text. The result are a simple hex code, we found the flag at the conversion.
+
+\subsection{Easy cipher}
+We found a Cesar cipher, but in this case, the key was 13. Rot 13 is an specific case of Cesar cipher and with found the flag by the conserving of special char and the case.
+
+\subsection{Asymetric cryptography leaks}
+The title of the challenge leaded us directly to \href{https://en.wikipedia.org/wiki/Public-key_cryptography#Recovery_from_a_leaked_key}{this page}. Then, it was easy to recover the private key using \href{https://github.com/Ganapati/RsaCtfTool}{this wonderful tool}, and thus decrypt the flag.
+
+\subsection{ELFs}
+We first disassembled the binary using \code{objdump}. Secondly, we looked for the corresponding hexadecimal value of the string "password" and "nope". Fortunately, we found the password in the exact same section.
+
+\subsection{Bypass master}
+We have found an sql injectible input and with found by this injection \code{' OR '1' = '1'; --}
+
+\subsection{Pending updates might shock you}
+We found an iframe with a cgi. We use the ShellShock exploit to have an shell on the serveur and found the flag on code{/www/flag\_xxxxx}.
+
+\subsection{IoT Challenge}
+We have finished all IoT Challenge at the stand.
+
+\end{document}
